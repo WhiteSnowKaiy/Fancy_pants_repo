@@ -9,7 +9,7 @@ class LoginPage extends Page {
      * define selectors using getter methods
      */
     public get inputUsername () {
-        return $('#username');
+        return $('#user-name');
     }
 
     public get inputPassword () {
@@ -17,7 +17,11 @@ class LoginPage extends Page {
     }
 
     public get btnSubmit () {
-        return $('button[type="submit"]');
+        return $('#login-button');
+    }
+
+    public get flashAlert () {
+        return $('h3[data-test="error"]');
     }
 
     /**
@@ -28,13 +32,16 @@ class LoginPage extends Page {
         await this.inputUsername.setValue(username);
         await this.inputPassword.setValue(password);
         await this.btnSubmit.click();
+        if (username === 'locked_out_user') {
+            await expect(this.flashAlert).toBeExisting();
+        }
     }
 
     /**
      * overwrite specific options to adapt it to page object
      */
     public open () {
-        return super.open('login');
+        return super.open();
     }
 }
 
