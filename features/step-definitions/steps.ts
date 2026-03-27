@@ -1,23 +1,29 @@
 import { Given, When, Then } from '@wdio/cucumber-framework';
-import { expect, $ } from '@wdio/globals'
+import { expect } from '@wdio/globals';
 
 import LoginPage from '../pageobjects/login.page.js';
-import SecurePage from '../pageobjects/secure.page.js';
 
-const pages = {
-    login: LoginPage
-}
+// ── Navigation ─────────────────────────────────────────
 
-Given(/^I am on the (\w+) page$/, async (page) => {
-    await pages[page].open()
+Given(/^I am on the login page$/, async () => {
+    await LoginPage.open();
 });
 
-When(/^I login with (\w+) and (.+)$/, async (username, password) => {
-    await LoginPage.login(username, password)
-});
+// ── Actions ────────────────────────────────────────────
 
-Then(/^I should see a flash message saying (.*)$/, async (message) => {
-    await expect(SecurePage.flashAlert).toBeExisting();
-    await expect(SecurePage.flashAlert).toHaveText(expect.stringContaining(message));
-});
+When(
+    /^I login with "([^"]*)" and "([^"]*)"$/,
+    async (username: string, password: string) => {
+        await LoginPage.login(username, password);
+    }
+);
 
+// ── Assertions ─────────────────────────────────────────
+
+Then(
+    /^I should see a flash message saying "([^"]*)"$/,
+    async (message: string) => {
+        await expect(LoginPage.flashAlert).toBeDisplayed();
+        await expect(LoginPage.flashAlert).toHaveText(message);
+    }
+);

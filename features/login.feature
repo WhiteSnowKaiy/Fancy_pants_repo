@@ -1,13 +1,17 @@
-Feature: The Internet Guinea Pig Website
+Feature: Login
 
-  Scenario Outline: As a user, I can log into the secure area
+  Scenario: Successful login
+    Given I am on the login page
+    When I login with "standard_user" and "secret_sauce"
+    Then the inventory page should be loaded
 
+  Scenario Outline: Failed login
     Given I am on the login page
     When I login with <username> and <password>
+    Then I should see a flash message saying <message>
 
     Examples:
-      | username                | password       |
-      | standard_user           | secret_sauce   |
-      | locked_out_user         | secret_sauce   |
-      | problem_user            | secret_sauce   |
-      | performance_glitch_user | secret_sauce   |
+      | username         | password | message |
+      |                  |          | Epic sadface: Username is required |
+      | standard_user    |          | Epic sadface: Password is required |
+      | nonexistent_user | foobar   | Epic sadface: Username and password do not match any user in this service |
