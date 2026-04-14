@@ -1,6 +1,6 @@
 import { When, Then } from '@wdio/cucumber-framework';
-import { expect } from '@wdio/globals';
-import InventoryPage from '../pageobjects/inventory.page.js';
+import { $, expect } from '@wdio/globals';
+import InventoryPage from '../pages/inventory.page.js';
 
 // Cart actions
 When(/^I add "([^"]*)" to the cart$/, async (name: string) => {

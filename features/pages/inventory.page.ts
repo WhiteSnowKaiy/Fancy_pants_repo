@@ -1,4 +1,4 @@
-import Page from "./page.ts";
+import Page from "./page.js";
 
 type SortOption = 'az' | 'za' | 'lohi' | 'hilo';
 
